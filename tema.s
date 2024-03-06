@@ -29,7 +29,7 @@ matrix_mult:       ;functia de inmultit matrice
       mov %esp, %ebp
       push %edi
       push %ebx 
-			subl $24, %esp
+      subl $24, %esp
       for_mult:
          movl $0, -12(%ebp)
          for_linii_mult:    ;pe linia i
@@ -61,7 +61,7 @@ matrix_mult:       ;functia de inmultit matrice
                      movl 12(%ebp), %edi
                      movl (%edi, %eax, 4), %ecx  ;ecx=m1[k][j]
 
-										 movl %ebx, %eax
+		     movl %ebx, %eax
                      movl $0, %edx
                      mull %ecx
                      addl -24(%ebp), %eax
@@ -73,18 +73,18 @@ matrix_mult:       ;functia de inmultit matrice
                 incl -12(%ebp)
                 jmp for_linii_mult
         cont1_mult:
-								movl -12(%ebp), %eax
-								movl $0, %edx
-								mull 20(%ebp)
-								addl -16(%ebp), %eax
-								movl 16(%ebp), %edi
-								movl -24(%ebp), %ebx
-								movl %ebx, (%edi, %eax, 4)
+		movl -12(%ebp), %eax
+		movl $0, %edx
+		mull 20(%ebp)
+		addl -16(%ebp), %eax
+		movl 16(%ebp), %edi
+		movl -24(%ebp), %ebx
+		movl %ebx, (%edi, %eax, 4)
                 incl -16(%ebp)             
                 jmp for_coloane_mult
-				;mrez stocheaza m*m1
-				;acum, trebuie sa facem o copie a mrez in m1
-				et_atribuire:
+	;mrez stocheaza m*m1
+	;acum, trebuie sa facem o copie a mrez in m1
+	et_atribuire:
 	        movl $0, -12(%ebp)
                 for_l_atribuire:
                                 movl -12(%ebp), %ecx   
@@ -102,18 +102,18 @@ matrix_mult:       ;functia de inmultit matrice
                                 movl 16(%ebp), %edi     
                                 movl (%edi, %eax, 4), %ebx  ;ebx=mrez[i][j]
                                 movl -16(%ebp), %ecx    
-															  movl -12(%ebp), %eax
+				movl -12(%ebp), %eax
                                 movl $0, %edx
                                 mull 20(%ebp)
                                 addl -16(%ebp), %eax
-																movl 12(%ebp), %edi    
-																movl %ebx, (%edi, %eax, 4)  ;m1[i][j]=ebx
+				movl 12(%ebp), %edi    
+				movl %ebx, (%edi, %eax, 4)  ;m1[i][j]=ebx
                                 incl -16(%ebp)
                                 jmp for_c_atribuire
         cont_a:
                 incl -12(%ebp)
                 jmp for_l_atribuire
-				addl $24, %esp
+	addl $24, %esp
         pop %ebx
         pop %edi
         pop %ebp
@@ -170,9 +170,9 @@ et_for:
                                 addl nod, %eax
                                 lea matrice, %edi
                                 movl $1, (%edi, %eax, 4) 
-																lea matrice1, %edi
+				lea matrice1, %edi
                                 movl $1, (%edi, %eax, 4) 
-																lea matrice_rez, %edi
+				lea matrice_rez, %edi
                                 movl $1, (%edi, %eax, 4) 
                                 incl index2
                                 jmp for_nod
@@ -185,58 +185,58 @@ et_cerinte:
                 movl $1, x
                 cmp %eax, x
                 je et_afis_matr
-								;daca nr cerintei e 1, pur si simplu se afiseaza matricea
-								;daca nu, se citeste lung,nod1,nod2, se face fct de inmultire de lung ori
+		;daca nr cerintei e 1, pur si simplu se afiseaza matricea
+		;daca nu, se citeste lung,nod1,nod2, se face fct de inmultire de lung ori
 								
-								;citim lung-1
-								pushl $lung
-								pushl $formatScanf
-								call scanf
-								popl %ebx
-								popl %ebx   
-								movl lung, %eax
+		;citim lung-1
+		pushl $lung
+		pushl $formatScanf
+		call scanf
+		popl %ebx
+		popl %ebx   
+		movl lung, %eax
                 sub $1, %eax
                 movl %eax, lung
-								movl $0, e
-								for_lung:
-										movl e, %ecx
-										cmp %ecx, lung
-										je et_drum    ;daca functia s a repetat de k ori, afisam m[nod1][nod2]
+		movl $0, e
+		for_lung:
+			movl e, %ecx
+			cmp %ecx, lung
+			je et_drum    ;daca functia s a repetat de k ori, afisam m[nod1][nod2]
 										
-							;aici punem pe stiva tot ce ne trebuie in functie
+			;aici punem pe stiva tot ce ne trebuie in functie
 				
-										pushl n
-										lea matrice_rez, %edi 
-										pushl %edi
-										lea matrice1, %edi 
-										pushl %edi
-										lea matrice, %edi 
-										pushl %edi
-		                jmp matrix_mult
-								cont_lung:
-										incl e
-										jmp for_lung
+			pushl n
+			lea matrice_rez, %edi 
+			pushl %edi
+			lea matrice1, %edi 
+			pushl %edi
+			lea matrice, %edi 
+			pushl %edi
+		        jmp matrix_mult
+		cont_lung:
+			incl e
+			jmp for_lung
 et_drum:
-				pushl $nod1        ;citim nod1
-				pushl $formatScanf
-				call scanf
-				popl %ebx
-				popl %ebx 
+	pushl $nod1        ;citim nod1
+	pushl $formatScanf
+	call scanf
+	popl %ebx
+	popl %ebx 
 
-				pushl $nod2         ;citim nod2
-				pushl $formatScanf
-				call scanf
-				popl %ebx
-				popl %ebx    
+	pushl $nod2         ;citim nod2
+	pushl $formatScanf
+	call scanf
+	popl %ebx
+	popl %ebx    
 
-				movl nod1, %eax     ;memoram mrez[nod1][nod2]
+	movl nod1, %eax     ;memoram mrez[nod1][nod2]
         movl $0, %edx
         mull n         
         addl nod2, %eax     
         lea matrice_rez, %edi
         movl (%edi, %eax, 4), %ebx 
 
-				pushl %ebx          ;afisam mrez[nod1][nod2]
+	pushl %ebx          ;afisam mrez[nod1][nod2]
         pushl $formatPrintf
         call printf
         popl %ebx
@@ -244,7 +244,7 @@ et_drum:
         pushl $0
         call fflush
         popl %ebx
-				jmp et_exit
+	jmp et_exit
 et_afis_matr:
         movl $0, i
                 for_linii:
